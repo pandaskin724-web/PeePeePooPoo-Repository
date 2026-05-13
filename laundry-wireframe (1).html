@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshSpin – Laundry Reimagined</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --navy: #1A2332;
+    --teal: #2A9D8F;
+    --gold: #E9C46A;
+    --coral: #E76F51;
+    --light-teal: #A8DADC;
+    --mist: #EEF4F7;
+    --text: #1A2332;
+    --radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--cream);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo span { color: var(--gold); }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--teal);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    animation: spin 8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    background: rgba(255,255,255,0.06);
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    color: rgba(245,240,232,0.65);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    letter-spacing: 0.3px;
+  }
+  .tab-btn:hover { color: var(--cream); background: rgba(255,255,255,0.08); }
+  .tab-btn.active {
+    background: var(--teal);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(42,157,143,0.5);
+  }
+
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(233,196,106,0.5); }
+
+  /* ─── PAGES ─── */
+  .page { display: none; animation: fadeIn 0.4s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ════════════ HOME PAGE ════════════ */
+  .hero {
+    background: var(--navy);
+    min-height: 88vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 80px;
+    gap: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(42,157,143,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 200px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(233,196,106,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(42,157,143,0.2);
+    border: 1px solid rgba(42,157,143,0.4);
+    color: var(--light-teal);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 30px;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+
+  .hero p {
+    color: rgba(245,240,232,0.65);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    padding: 16px 34px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 4px 20px rgba(42,157,143,0.4);
+  }
+  .btn-primary:hover { background: #238a7e; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(42,157,143,0.5); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border: 1.5px solid rgba(245,240,232,0.3);
+    padding: 16px 34px;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* hero visual */
+  .hero-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .washer-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 28px;
+    padding: 40px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .washer-drum {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 6px solid rgba(42,157,143,0.5);
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at 40% 35%, rgba(42,157,143,0.3), rgba(26,35,50,0.8));
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.3), 0 0 30px rgba(42,157,143,0.2);
+    animation: drumSpin 6s linear infinite;
+  }
+  @keyframes drumSpin {
+    from { border-color: rgba(42,157,143,0.5) rgba(233,196,106,0.2) rgba(42,157,143,0.5) rgba(233,196,106,0.2); }
+    to { border-color: rgba(233,196,106,0.2) rgba(42,157,143,0.5) rgba(233,196,106,0.2) rgba(42,157,143,0.5); transform: rotate(360deg); }
+  }
+  .drum-icon { font-size: 3rem; animation: drumSpin 6s linear infinite reverse; }
+  .washer-label {
+    color: var(--cream);
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .washer-status {
+    color: var(--teal);
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 340px;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .stat-label { color: rgba(245,240,232,0.5); font-size: 0.72rem; margin-top: 4px; }
+
+  /* how it works */
+  .section {
+    padding: 90px 80px;
+  }
+  .section-tag {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--teal);
+    margin-bottom: 12px;
+  }
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    color: var(--navy);
+  }
+  .section-sub { color: #5a6a7e; font-size: 1.05rem; line-height: 1.7; max-width: 540px; }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .step-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    position: relative;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .step-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); border-color: var(--light-teal); }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: rgba(42,157,143,0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step-icon { font-size: 2rem; margin-bottom: 12px; }
+  .step-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: var(--navy); }
+  .step-card p { font-size: 0.88rem; color: #7a8899; line-height: 1.6; }
+
+  /* testimonials */
+  .testimonials { background: var(--navy); padding: 80px; }
+  .testimonials h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--cream);
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .review-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .stars { color: var(--gold); font-size: 1rem; margin-bottom: 14px; }
+  .review-text { color: rgba(245,240,232,0.75); font-size: 0.92rem; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 700; color: #fff;
+  }
+  .reviewer-name { font-size: 0.88rem; font-weight: 600; color: var(--cream); }
+  .reviewer-loc { font-size: 0.76rem; color: rgba(245,240,232,0.45); }
+
+  /* services strip */
+  .services-strip {
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow: hidden;
+    padding: 18px 0;
+  }
+  .strip-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .strip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  /* ════════════ ABOUT PAGE ════════════ */
+  .about-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #243447 100%);
+    padding: 100px 80px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232A9D8F' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .about-hero-inner {
+    max-width: 600px;
+    position: relative; z-index: 2;
+  }
+  .about-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .about-hero h1 em { color: var(--teal); font-style: normal; }
+  .about-hero p { color: rgba(245,240,232,0.7); font-size: 1.1rem; line-height: 1.75; }
+
+  .about-content { padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-visual {
+    background: var(--mist);
+    border-radius: 24px;
+    padding: 48px;
+    text-align: center;
+    border: 2px dashed var(--light-teal);
+    position: relative;
+  }
+  .big-icon { font-size: 5rem; margin-bottom: 20px; }
+  .about-visual-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .about-visual p { color: #7a8899; font-size: 0.9rem; }
+  .year-badge {
+    position: absolute;
+    top: -16px; right: 32px;
+    background: var(--coral);
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 8px 18px;
+    border-radius: 20px;
+  }
+  .about-text h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--navy); margin-bottom: 20px; }
+  .about-text p { color: #5a6a7e; font-size: 1rem; line-height: 1.8; margin-bottom: 20px; }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 10px;
+  }
+  .value-chip {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--mist);
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--navy);
+    border-left: 3px solid var(--teal);
+  }
+
+  .team-section { background: var(--cream); padding: 0 80px 80px; }
+  .team-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; color: var(--navy); margin-bottom: 40px; text-align: center; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .team-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    transition: transform 0.2s;
+  }
+  .team-card:hover { transform: translateY(-4px); }
+  .team-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .team-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .team-role { color: var(--teal); font-size: 0.82rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+  .team-bio { color: #7a8899; font-size: 0.88rem; line-height: 1.6; }
+
+  /* ════════════ BOOKING PAGE ════════════ */
+  .booking-hero {
+    background: var(--navy);
+    padding: 70px 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .booking-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(42,157,143,0.15) 0%, transparent 65%);
+  }
+  .booking-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--cream);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .booking-hero p { color: rgba(245,240,232,0.6); font-size: 1.05rem; position: relative; }
+
+  .booking-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .booking-form {
+    background: #fff;
+    border-radius: 24px;
+    padding: 48px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.1);
+  }
+  .form-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--mist);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  .form-group { display: flex; flex-direction: column; gap: 7px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 0.85rem; font-weight: 600; color: #3d4f63; letter-spacing: 0.3px; }
+  input, select, textarea {
+    padding: 13px 16px;
+    border: 1.5px solid #e4ecf2;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--navy);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    background: #fafcfd;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(42,157,143,0.12);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 90px; }
+
+  .service-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .service-option {
+    border: 2px solid #e4ecf2;
+    border-radius: 14px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    background: #fafcfd;
+  }
+  .service-option:hover, .service-option.selected {
+    border-color: var(--teal);
+    background: rgba(42,157,143,0.05);
+  }
+  .service-option.selected { box-shadow: 0 0 0 3px rgba(42,157,143,0.15); }
+  .svc-icon { font-size: 2rem; margin-bottom: 8px; }
+  .svc-name { font-size: 0.92rem; font-weight: 600; color: var(--navy); }
+  .svc-price { font-size: 0.78rem; color: var(--teal); font-weight: 500; margin-top: 4px; }
+
+  /* Estimated time widget */
+  .eta-widget {
+    background: linear-gradient(135deg, var(--navy) 0%, #243447 100%);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .eta-widget::before {
+    content: '⏱';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 5rem;
+    opacity: 0.08;
+  }
+  .eta-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+  }
+  .eta-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .eta-sub { color: rgba(245,240,232,0.6); font-size: 0.88rem; }
+  .eta-breakdown {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  .eta-step {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .eta-step-icon { font-size: 1.2rem; margin-bottom: 6px; }
+  .eta-step-label { font-size: 0.72rem; color: rgba(245,240,232,0.5); text-transform: uppercase; letter-spacing: 0.8px; }
+  .eta-step-time { font-size: 0.95rem; font-weight: 600; color: var(--cream); margin-top: 2px; }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    padding: 18px;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 20px rgba(42,157,143,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .submit-btn:hover { background: #238a7e; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(42,157,143,0.5); }
+
+  /* success modal */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,35,50,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+  .modal {
+    background: #fff;
+    border-radius: 24px;
+    padding: 56px 48px;
+    max-width: 460px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .modal-icon { font-size: 4rem; margin-bottom: 20px; }
+  .modal h2 { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+  .modal p { color: #5a6a7e; font-size: 1rem; line-height: 1.7; margin-bottom: 10px; }
+  .modal-eta {
+    background: var(--mist);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .modal-close {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: var(--teal); }
+
+  /* Footer */
+  footer {
+    background: var(--navy);
+    color: rgba(245,240,232,0.5);
+    padding: 40px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cream);
+  }
+  .footer-logo span { color: var(--gold); }
+
+  /* Responsive helpers */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-tabs { gap: 2px; }
+    .tab-btn { padding: 7px 12px; font-size: 0.82rem; }
+    .hero, .about-content { grid-template-columns: 1fr; padding: 40px 24px; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); }
+    .section, .testimonials, .booking-hero { padding: 60px 24px; }
+    .reviews-grid, .team-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .service-cards { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; padding: 30px 24px; }
+    .booking-container { padding: 40px 20px; }
+    .booking-form { padding: 28px 20px; }
+    .eta-breakdown { flex-direction: column; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon">🌀</div>
+    Fresh<span>Spin</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showPage('home', this)">Home</button>
+    <button class="tab-btn" onclick="showPage('about', this)">About Us</button>
+    <button class="tab-btn" onclick="showPage('booking', this)">Book Laundry</button>
+  </div>
+  <button class="nav-cta" onclick="showPage('booking', document.querySelectorAll('.tab-btn')[2])">Book Now ✦</button>
+</nav>
+
+<!-- ──────── HOME PAGE ──────── -->
+<div id="home" class="page active">
+
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">Live Pickups Available Now</div>
+      <h1>Laundry Done <em>Right.</em> Delivered Fresh.</h1>
+      <p>We collect, wash, fold, and return your clothes — spotless, crisp, and smelling like a dream. No hassle. Just clean.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('booking', document.querySelectorAll('.tab-btn')[2])">Schedule Pickup →</button>
+        <button class="btn-secondary" onclick="showPage('about', document.querySelectorAll('.tab-btn')[1])">Our Story</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="washer-card">
+        <div class="washer-drum"><div class="drum-icon">🧺</div></div>
+        <div class="washer-label">Current Status</div>
+        <div class="washer-status">Pickups Active ✓</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-card">
+          <div class="stat-num">12k+</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2hr</div>
+          <div class="stat-label">Avg Pickup</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4.9★</div>
+          <div class="stat-label">Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services strip -->
+  <div class="services-strip">
+    <div class="strip-track">
+      <span class="strip-item">🧺 Wash & Fold</span>
+      <span class="strip-item">👔 Dry Cleaning</span>
+      <span class="strip-item">🏠 Home Pickup</span>
+      <span class="strip-item">⚡ Express 2hr</span>
+      <span class="strip-item">🌿 Eco Detergents</span>
+      <span class="strip-item">📦 Free Delivery</span>
+      <span class="strip-item">🧺 Wash & Fold</span>
+      <span class="strip-item">👔 Dry Cleaning</span>
+      <span class="strip-item">🏠 Home Pickup</span>
+      <span class="strip-item">⚡ Express 2hr</span>
+      <span class="strip-item">🌿 Eco Detergents</span>
+      <span class="strip-item">📦 Free Delivery</span>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="section-tag">The Process</div>
+    <h2>How FreshSpin Works</h2>
+    <p class="section-sub">From booking to delivery, we've made every step effortless so you can focus on what matters most.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">📱</div>
+        <h3>Book Online</h3>
+        <p>Pick your service, select a convenient pickup window, and enter your address in under 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">🚐</div>
+        <h3>We Collect</h3>
+        <p>Our friendly driver arrives at your door within your chosen time slot and collects your laundry bag.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">✨</div>
+        <h3>We Clean</h3>
+        <p>Expert care in our state-of-the-art facility using eco-friendly, skin-safe detergents.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon">🎁</div>
+        <h3>We Deliver</h3>
+        <p>Your clean, folded laundry is returned fresh and neatly packaged — right to your door.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <h2>What Our Customers Say</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"FreshSpin has completely transformed my week. My clothes come back perfectly folded and smelling absolutely incredible. Never going back to the laundromat!"</p>
+        <div class="reviewer">
+          <div class="avatar" style="background: var(--teal);">S</div>
+          <div>
+            <div class="reviewer-name">Sarah M.</div>
+            <div class="reviewer-loc">Downtown ・ Regular Customer</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"As a busy parent, this service is genuinely life-changing. Pickup was on time, everything came back spotless. Worth every penny and then some."</p>
+        <div class="reviewer">
+          <div class="avatar" style="background: var(--coral);">J</div>
+          <div>
+            <div class="reviewer-name">James T.</div>
+            <div class="reviewer-loc">Midtown ・ Weekly Plan</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"The express 2-hour service saved me before a big meeting. I can't imagine going back. The app is so easy and the team is incredibly professional."</p>
+        <div class="reviewer">
+          <div class="avatar" style="background: var(--gold); color: var(--navy);">P</div>
+          <div>
+            <div class="reviewer-name">Priya K.</div>
+            <div class="reviewer-loc">Uptown ・ Express Member</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Fresh<span>Spin</span></div>
+    <div>© 2026 FreshSpin. All rights reserved.</div>
+    <div>📍 Serving all metro districts</div>
+  </footer>
+</div>
+
+<!-- ──────── ABOUT PAGE ──────── -->
+<div id="about" class="page">
+  <div class="about-hero">
+    <div class="about-hero-inner">
+      <div class="section-tag" style="margin-bottom:12px;">Est. 2019</div>
+      <h1>We're <em>Obsessed</em><br>with Clean.</h1>
+      <p>Born from the simple frustration of never having enough time for laundry, FreshSpin was built to give people their weekends back — one perfect wash at a time.</p>
+    </div>
+  </div>
+
+  <div class="about-content">
+    <div class="about-visual">
+      <div class="year-badge">Since 2019</div>
+      <div class="big-icon">🧺</div>
+      <div class="about-visual-title">5 Years of Clean</div>
+      <p>Over 200,000 orders completed<br>across the metro area</p>
+    </div>
+    <div class="about-text">
+      <h2>Our Story</h2>
+      <p>FreshSpin started as a one-van operation run by two roommates who were tired of spending Sundays at the laundromat. Today, we're a team of 60+ with a fleet of 20 vans and a facility built around one obsession: delivering clothes you can feel good in.</p>
+      <p>We use only hypoallergenic, biodegradable detergents. Every item is individually sorted, temperature-checked, and inspected before we deliver it back to you.</p>
+      <div class="values-grid">
+        <div class="value-chip">🌱 Eco-First</div>
+        <div class="value-chip">⏱ Always On Time</div>
+        <div class="value-chip">🧴 Safe Detergents</div>
+        <div class="value-chip">🔒 Fully Insured</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h2>Meet the Team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, var(--teal), #1a7a70);">MA</div>
+        <div class="team-name">Marcus Allen</div>
+        <div class="team-role">Co-Founder & CEO</div>
+        <div class="team-bio">Former logistics engineer turned laundry evangelist. Marcus obsesses over route optimization and customer delight in equal measure.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, var(--coral), #c05a3a);">LR</div>
+        <div class="team-name">Lena Rodriguez</div>
+        <div class="team-role">Head of Operations</div>
+        <div class="team-bio">20-year textile care veteran. Lena wrote the playbook on stain removal and trains every member of our cleaning crew personally.</div>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar" style="background: linear-gradient(135deg, var(--gold), #c49a30); color: var(--navy);">DK</div>
+        <div class="team-name">Dev Kim</div>
+        <div class="team-role">CTO & Co-Founder</div>
+        <div class="team-bio">Built the platform that powers real-time pickup tracking, route planning, and our beloved "where's my laundry?" notifications.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Fresh<span>Spin</span></div>
+    <div>© 2026 FreshSpin. All rights reserved.</div>
+    <div>📍 Serving all metro districts</div>
+  </footer>
+</div>
+
+<!-- ──────── BOOKING PAGE ──────── -->
+<div id="booking" class="page">
+  <div class="booking-hero">
+    <h1>Book Your Pickup</h1>
+    <p>Ready for effortlessly clean clothes? Fill in the details below — we'll handle the rest.</p>
+  </div>
+
+  <div class="booking-container">
+    <div class="booking-form">
+      
+      <!-- Step 1: Contact -->
+      <div class="form-section-title">📋 Your Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="firstName" placeholder="e.g. Jordan">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lastName" placeholder="e.g. Smith">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="phone" placeholder="+1 (555) 000-0000">
+        </div>
+        <div class="form-group full">
+          <label>Pickup Address</label>
+          <input type="text" id="address" placeholder="123 Main Street, Apt 4B, New York, NY 10001">
+        </div>
+      </div>
+
+      <!-- Step 2: Service -->
+      <div class="form-section-title">🧺 Choose Your Service</div>
+      <div class="service-cards">
+        <div class="service-option selected" onclick="selectService(this)">
+          <div class="svc-icon">👕</div>
+          <div class="svc-name">Wash & Fold</div>
+          <div class="svc-price">From $1.50/lb</div>
+        </div>
+        <div class="service-option" onclick="selectService(this)">
+          <div class="svc-icon">👔</div>
+          <div class="svc-name">Dry Clean</div>
+          <div class="svc-price">From $8.00/item</div>
+        </div>
+        <div class="service-option" onclick="selectService(this)">
+          <div class="svc-icon">⚡</div>
+          <div class="svc-name">Express (2hr)</div>
+          <div class="svc-price">+$15 rush fee</div>
+        </div>
+      </div>
+
+      <!-- Step 3: Scheduling -->
+      <div class="form-section-title">📅 Schedule Pickup</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date" id="pickupDate">
+        </div>
+        <div class="form-group">
+          <label>Pickup Time Window</label>
+          <select id="pickupTime">
+            <option>8:00 AM – 10:00 AM</option>
+            <option>10:00 AM – 12:00 PM</option>
+            <option>12:00 PM – 2:00 PM</option>
+            <option>2:00 PM – 4:00 PM</option>
+            <option>4:00 PM – 6:00 PM</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Special Instructions (optional)</label>
+          <textarea id="instructions" placeholder="e.g. Cold water only..."></textarea>
+        </div>
+      </div>
+
+      <!-- ETA Widget -->
+      <div class="eta-widget">
+        <div class="eta-title">📍 Estimated Timeline</div>
+        <div class="eta-main">Ready in ~24 hours</div>
+        <div class="eta-sub">Based on your selected service and location</div>
+        <div class="eta-breakdown">
+          <div class="eta-step">
+            <div class="eta-step-icon">🚐</div>
+            <div class="eta-step-label">Pickup</div>
+            <div class="eta-step-time">Within 2 hrs</div>
+          </div>
+          <div class="eta-step">
+            <div class="eta-step-icon">✨</div>
+            <div class="eta-step-label">Processing</div>
+            <div class="eta-step-time">12–18 hrs</div>
+          </div>
+          <div class="eta-step">
+            <div class="eta-step-icon">📦</div>
+            <div class="eta-step-label">Delivery</div>
+            <div class="eta-step-time">Same day</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="showConfirmation()">
+        <span>✦</span> Confirm Pickup Booking
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Fresh<span>Spin</span></div>
+    <div>© 2026 FreshSpin. All rights reserved.</div>
+    <div>📍 Serving all metro districts</div>
+  </footer>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <div class="modal-icon">🎉</div>
+    <h2>You're All Set!</h2>
+    <p>Your laundry pickup has been confirmed. Our driver will be at your door within your chosen window.</p>
+    <div class="modal-eta">📦 Estimated Return: ~24 Hours</div>
+    <p style="font-size:0.85rem; color:#9aabb8;">You'll receive an SMS confirmation and live tracking link shortly.</p>
+    <br>
+    <button class="modal-close" onclick="closeModal()">Back to Home</button>
+  </div>
+</div>
+
+<script>
+
+  let selectedService = "Wash & Fold";
+
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function selectService(el) {
+  document.querySelectorAll('.service-option')
+    .forEach(s => s.classList.remove('selected'));
+
+  el.classList.add('selected');
+
+  selectedService =
+    el.querySelector('.svc-name').textContent;
+
+  const etaMain = document.querySelector('.eta-main');
+  const etaSteps = document.querySelectorAll('.eta-step-time');
+
+  if (selectedService === 'Express (2hr)') {
+    etaMain.textContent = 'Ready in ~2 hours';
+    etaSteps[1].textContent = '1–1.5 hrs';
+    etaSteps[2].textContent = 'Same day';
+
+  } else if (selectedService === 'Dry Clean') {
+    etaMain.textContent = 'Ready in ~48 hours';
+    etaSteps[1].textContent = '36–42 hrs';
+    etaSteps[2].textContent = 'Next day';
+
+  } else {
+    etaMain.textContent = 'Ready in ~24 hours';
+    etaSteps[1].textContent = '12–18 hrs';
+    etaSteps[2].textContent = 'Same day';
+  }
+}
+
+  function showConfirmation() {
+
+    // This is the names or values you can send you can check if it saves in dev mode in the browser
+    const bookingData = {
+
+    firstName:
+      document.getElementById('firstName').value,
+
+    lastName:
+      document.getElementById('lastName').value,
+
+    email:
+      document.getElementById('email').value,
+
+    phone:
+      document.getElementById('phone').value,
+
+    address:
+      document.getElementById('address').value,
+
+    chosenService:
+      selectedService,
+
+    pickupDate:
+      document.getElementById('pickupDate').value,
+
+    pickupTimeWindow:
+      document.getElementById('pickupTime').value,
+
+    specialInstructions:
+      document.getElementById('instructions').value
+  };
+
+  console.log(bookingData);
+
+  // Save locally in browser
+  localStorage.setItem(
+    'freshspinBooking',
+    JSON.stringify(bookingData)
+  );
+
+  document.getElementById('confirmModal')
+    .classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('confirmModal').classList.remove('show');
+    showPage('home', document.querySelectorAll('.tab-btn')[0]);
+  }
+</script>
+</body>
+</html>
